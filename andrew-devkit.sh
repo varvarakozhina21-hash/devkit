@@ -3,9 +3,11 @@
 clear
 
 # =========================
-# SAFE TYPEWRITER
+# SAFE OUTPUT MODE
 # =========================
-typewriter() {
+export PS1=""
+
+typewriter(){
     text="$1"
     delay="${2:-0.02}"
 
@@ -19,19 +21,19 @@ typewriter() {
 }
 
 pause(){
-    sleep 0.8
+    sleep 0.6
 }
 
 # =========================
-# INTRO
+# START SEQUENCE
 # =========================
 typewriter "CONNECTING TO DEVKIT CORE..." 0.03
 pause
 
-typewriter "AUTHENTICATING USER..." 0.03
+typewriter "AUTH SUCCESS"
 pause
 
-typewriter "CHECKING MEMORY ARCHIVE..." 0.03
+typewriter "LOADING MEMORY ARCHIVE..."
 pause
 
 echo
@@ -40,18 +42,18 @@ typewriter " ANDREW_DEVKIT // LEVEL 2"
 typewriter "============================="
 echo
 
-typewriter "type 'help' to see commands"
+typewriter "type 'help' to begin"
 echo
 
 # =========================
-# COMMAND LOOP (SAFE)
+# MAIN LOOP (ROBUST INPUT)
 # =========================
 while true
 do
     printf "> "
-    read cmd
+    IFS= read -r cmd
 
-    # empty input protection
+    # fix: broken / empty input protection
     if [ -z "$cmd" ]; then
         continue
     fi
@@ -96,7 +98,7 @@ do
 
     scan)
         echo
-        typewriter "Scanning system sectors..." 0.02
+        typewriter "Scanning sectors..." 0.02
         pause
         echo "VULNERABILITIES DETECTED:"
         echo "sector_07"
@@ -117,19 +119,16 @@ do
         echo
         typewriter "BREACH INITIATED..." 0.03
         pause
-        echo "Accessing hidden memory..."
+        echo "Accessing hidden fragment..."
         pause
-        echo
         echo "FRAGMENT RECOVERED: /memory/sector_07"
         echo
     ;;
 
     exit)
         echo
-        typewriter "DISCONNECTING FROM CORE..." 0.03
+        typewriter "DISCONNECTING..." 0.03
         pause
-        typewriter "SESSION CLOSED"
-        echo
         break
     ;;
 
