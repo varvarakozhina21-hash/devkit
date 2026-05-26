@@ -55,17 +55,19 @@ padding-top:10px;
 
 <script>
 
+let level2 = false;
+
 function write(t){
 document.getElementById("terminal").innerHTML += t + "\n";
 }
 
 function run(){
-let v=document.getElementById("cmd").value;
+let v=document.getElementById("cmd").value.trim();
 document.getElementById("cmd").value="";
 
 write("> " + v);
 
-// 👉 СИМУЛЯЦИЯ LEVEL 2 ЗАПУСКА
+// 🔵 LEVEL 1 → запуск Level 2
 if(v.includes("curl")){
 
 write("CONNECTING TO DEVKIT CORE...");
@@ -73,29 +75,53 @@ setTimeout(()=>write("DOWNLOADING MODULE..."),500);
 setTimeout(()=>write("EXECUTING LEVEL 2..."),1000);
 
 setTimeout(()=>{
+level2 = true;
 write("");
-write("ANDREW_DEVKIT // LEVEL 2");
+write("=== ANDREW_DEVKIT LEVEL 2 ===");
 write("SYSTEM TERMINAL ONLINE");
-write("");
 write("TYPE: help / logs / exploit");
 },1500);
 
 return;
 }
 
-// простые команды
+// ❌ если Level 2 не активирован
+if(!level2){
+write("UNKNOWN COMMAND");
+return;
+}
 
+// 🟢 LEVEL 2 команды
 if(v==="help"){
 write("commands: logs / scan / exploit");
 }
 
 else if(v==="logs"){
-write("log_01 ... log_19 CORE MEMORY LINK");
+write(
+"log_01 system boot\n"+
+"log_02 user detected\n"+
+"log_03 auth ok\n"+
+"log_04 memory sync\n"+
+"log_05 anomaly detected\n"+
+"log_06 trace running\n"+
+"log_07 corruption rising\n"+
+"log_08 hidden path found\n"+
+"log_09 core fragment unstable\n"+
+"log_10 CORE MEMORY LINK"
+);
 }
 
 else if(v==="exploit"){
-write("SYSTEM BREACH SIMULATION...");
-write("CORE MEMORY FOUND: apopimchiki-core");
+write("SYSTEM BREACH DETECTED...");
+write("searching vulnerabilities...");
+write("hidden endpoint: /memory/core/message.txt");
+write("ACCESS KEY: apopimchiki-core");
+write("CORE UNLOCKED");
+}
+
+else if(v==="scan"){
+write("scanning system...");
+write("anomalies found: 3");
 }
 
 else{
