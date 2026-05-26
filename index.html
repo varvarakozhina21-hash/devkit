@@ -5,36 +5,36 @@
 <title>ANDREW_DEVKIT</title>
 
 <style>
-body {
-background: black;
-color: #00ff88;
-font-family: monospace;
-padding: 20px;
+body{
+background:black;
+color:#00ff88;
+font-family:monospace;
+padding:20px;
 }
 
-.box {
-max-width: 800px;
-margin: auto;
-border: 1px solid #00ff88;
-padding: 20px;
+.box{
+max-width:800px;
+margin:auto;
+border:1px solid #00ff88;
+padding:20px;
 }
 
-input, button {
-width: 100%;
-padding: 10px;
-margin-top: 10px;
-background: black;
-color: #00ff88;
-border: 1px solid #00ff88;
-font-family: monospace;
+input,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+background:black;
+color:#00ff88;
+border:1px solid #00ff88;
+font-family:monospace;
 }
 
-#terminal {
-margin-top: 20px;
-white-space: pre-wrap;
-min-height: 200px;
-border-top: 1px solid #00ff88;
-padding-top: 10px;
+#terminal{
+margin-top:20px;
+white-space:pre-wrap;
+min-height:200px;
+border-top:1px solid #00ff88;
+padding-top:10px;
 }
 </style>
 
@@ -44,51 +44,66 @@ padding-top: 10px;
 
 <div class="box">
 
-<h2>ANDREW_DEVKIT</h2>
-
-<p>ENTER ACCESS CODE:</p>
-
-<input id="cmd" placeholder="type password or command...">
-<button onclick="run()">EXECUTE</button>
+<h2>ANDREW_DEVKIT // SECURE NODE</h2>
 
 <div id="terminal"></div>
+
+<input id="cmd" placeholder="enter access code or command">
+<button onclick="run()">EXECUTE</button>
 
 </div>
 
 <script>
 
-let unlocked = false;
+let level2 = false;
 
 function write(t){
 document.getElementById("terminal").innerHTML += t + "\n";
 }
 
+function boot(){
+write("booting system...");
+setTimeout(()=>write("loading kernel..."),500);
+setTimeout(()=>write("checking integrity..."),1000);
+setTimeout(()=>write("firewall bypass required"),1500);
+setTimeout(()=>write("ENTER ACCESS CODE"),2000);
+}
+
+boot();
+
 function run(){
+
 let v = document.getElementById("cmd").value.trim();
 document.getElementById("cmd").value = "";
 
 write("> " + v);
 
-// 🔵 LEVEL 1 — ПАРОЛЬ
+// 🔐 LEVEL 1 PASSWORD
 if(v === "apopimchiki"){
-write("ACCESS GRANTED...");
-write("CONNECTING TO CORE...");
-setTimeout(()=>{
-unlocked = true;
+write("ACCESS GRANTED");
+write("bypassing security...");
+write("decrypting core...");
 write("");
-write("=== ANDREW_DEVKIT LEVEL 2 UNLOCKED ===");
-write("TYPE: help | logs | scan | exploit");
+write("=== DEVKIT CORE UNLOCKED ===");
+
+setTimeout(()=>{
+level2 = true;
+write("");
+write(">>> ENTERING SYSTEM TERMINAL <<<");
+write("TYPE: help | logs | scan | exploit | status");
 },1000);
+
 return;
 }
 
-// ❌ если ещё не разблокировано
-if(!unlocked){
-write("UNKNOWN COMMAND");
+// ❌ до входа
+if(!level2){
+write("ACCESS DENIED");
 return;
 }
 
-// 🟢 LEVEL 2
+// 💻 LEVEL 2
+
 if(v === "help"){
 write("commands: logs / scan / exploit / status");
 }
@@ -104,7 +119,7 @@ write(
 "log_07 corruption rising\n"+
 "log_08 hidden path found\n"+
 "log_09 core fragment unstable\n"+
-"log_10 CORE MEMORY LINK ESTABLISHED\n"+
+"log_10 CORE LINK ESTABLISHED\n"+
 "log_11 unknown signal\n"+
 "log_12 memory gap\n"+
 "log_13 /core/ fragment\n"+
@@ -133,12 +148,13 @@ write("SYSTEM BREACH INITIATED...");
 write("searching vulnerabilities...");
 write("hidden endpoint: /memory/core/message.txt");
 write("ACCESS KEY: apopimchiki-core");
-write("CORE MEMORY UNLOCKED");
+write("CORE UNLOCKED");
 }
 
 else{
 write("UNKNOWN COMMAND");
 }
+
 }
 
 </script>
