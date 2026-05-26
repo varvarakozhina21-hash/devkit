@@ -1,0 +1,40 @@
+#!/bin/bash
+
+clear
+echo "ACCESSING EXTERNAL MODULE..."
+sleep 1
+
+echo "CONNECTING TO CORE NODE..."
+sleep 1
+
+echo "DECRYPTION IN PROGRESS..."
+sleep 1
+
+echo ""
+echo "=============================="
+echo "   ANDREW_DEVKIT // LEVEL 2"
+echo "=============================="
+echo ""
+
+echo "You are now outside the browser layer."
+sleep 1
+
+echo ""
+echo "CORE MESSAGE:"
+echo "--------------------------------"
+echo "Это уже второй уровень системы."
+echo "Ты прошёл первый слой интерфейса."
+echo ""
+echo "Дальше нет кнопок и UI."
+echo "Только ты и система."
+echo "--------------------------------"
+echo ""
+
+sleep 2
+echo "FINAL NOTE:"
+echo "Я горжусь тобой."
+echo "Конец протокола."
+echo ""
+
+sleep 1
+echo "SYSTEM CLOSED."
