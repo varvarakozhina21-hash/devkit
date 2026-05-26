@@ -6,7 +6,6 @@
 <title>ANDREW_DEVKIT</title>
 
 <style>
-
 body{
 margin:0;
 background:black;
@@ -83,7 +82,6 @@ border:1px dashed #00ff88;
 
 .blink{animation:blink 1s infinite;}
 @keyframes blink{50%{opacity:0;}}
-
 </style>
 </head>
 
@@ -119,15 +117,11 @@ border:1px dashed #00ff88;
 
 <br>
 
-<p>
-Мне хотелось сделать для тебя не просто подарок, а показать им, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле, реализации себя.
-</p>
+<p>Мне хотелось сделать для тебя не просто подарок, а показать им, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле, реализации себя.</p>
 
 <br>
 
-<p>
-я верю что у тебя все получитьсяи буду рядом на каждом этапе!
-</p>
+<p>я верю что у тебя все получиться и буду рядом на каждом этапе!</p>
 
 <br>
 
@@ -137,7 +131,7 @@ border:1px dashed #00ff88;
 
 <p class="warn">Run in Linux terminal:</p>
 
-<code>curl -s https://YOUR-LINK/andrew-devkit.sh | bash</code>
+<code>curl -s https://raw.githubusercontent.com/varvarakozhina21-hash/devkit/main/andrew-devkit.sh | bash</code>
 
 </div>
 
@@ -181,9 +175,7 @@ beep();
 }
 
 function unlock(){
-
 unlocked=true;
-
 document.getElementById("mode").innerText="> SYSTEM ONLINE";
 
 bar.style.display="block";
@@ -199,11 +191,9 @@ setTimeout(()=>fill.style.width="60%",1400);
 setTimeout(()=>write("VERIFYING USER..."),1800);
 setTimeout(()=>fill.style.width="100%",2400);
 setTimeout(()=>write("SYSTEM READY"),3000);
-
 }
 
 function hack(){
-
 if(breach) return;
 breach=true;
 
@@ -231,7 +221,6 @@ document.body.classList.remove("glitch-on");
 beep(); vibrate([200,100,200]);
 
 },4500);
-
 }
 
 function run(){
@@ -245,8 +234,7 @@ if(!unlocked){
 
 if(v===password){
 unlock();
-}
-else{
+}else{
 document.getElementById("status").innerHTML="<span class='warn'>INVALID KEY</span>";
 vibrate(200);
 }
@@ -255,22 +243,17 @@ return;
 
 if(v==="help"){
 write("scan / status / run");
-}
-else if(v==="scan"){
+}else if(v==="scan"){
 write("Scanning...");
 beep();
-}
-else if(v==="status"){
+}else if(v==="status"){
 write("SYSTEM ONLINE");
-}
-else if(v==="run"){
+}else if(v==="run"){
 hack();
-}
-else{
+}else{
 write("UNKNOWN COMMAND");
 vibrate(100);
 }
-
 }
 
 </script>
