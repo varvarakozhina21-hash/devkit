@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ANDREW_DEVKIT</title>
 
 <style>
@@ -10,18 +11,24 @@ background:black;
 color:#00ff88;
 font-family:monospace;
 padding:20px;
+margin:0;
 }
 
 .box{
-max-width:800px;
+max-width:700px;
 margin:auto;
 border:1px solid #00ff88;
 padding:20px;
+margin-top:30px;
+}
+
+h1{
+font-size:20px;
 }
 
 input,button{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:10px;
 background:black;
 color:#00ff88;
@@ -30,85 +37,90 @@ font-family:monospace;
 }
 
 #terminal{
-margin-top:20px;
 white-space:pre-wrap;
-min-height:200px;
+margin-top:20px;
 border-top:1px solid #00ff88;
 padding-top:10px;
+min-height:200px;
+}
+
+.glitch{
+animation:gl 1s infinite;
+}
+
+@keyframes gl{
+0%{opacity:1}
+50%{opacity:0.4}
+100%{opacity:1}
 }
 </style>
-
 </head>
 
 <body>
 
 <div class="box">
 
-<h2>ANDREW_DEVKIT // SECURE NODE</h2>
+<div id="level1">
+
+<h1 class="glitch">ANDREW_DEVKIT // ACCESS NODE</h1>
+
+<p>Если ты это читаешь — значит ты добрался до ядра системы.</p>
+<p>Мне хотелось сделать для тебя не просто подарок, а показать, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле и реализации себя.</p>
+<p>Я верю, что у тебя всё получится, и буду рядом на каждом этапе.</p>
+
+<p>ENTER ACCESS CODE:</p>
+
+<input id="cmd" placeholder="password...">
+<button onclick="enter()">UNLOCK</button>
+
+</div>
+
+<div id="level2" style="display:none">
+
+<h1>ANDREW_DEVKIT // CORE TERMINAL</h1>
 
 <div id="terminal"></div>
 
-<input id="cmd" placeholder="enter access code or command">
+<input id="cmd2" placeholder="type command...">
 <button onclick="run()">EXECUTE</button>
+
+</div>
 
 </div>
 
 <script>
 
-let level2 = false;
+let unlocked=false;
+
+function enter(){
+let v=document.getElementById("cmd").value.trim();
+
+if(v==="apopimchiki"){
+document.getElementById("level1").style.display="none";
+document.getElementById("level2").style.display="block";
+unlocked=true;
+write("CORE SYSTEM ACTIVATED");
+write("TYPE: help / logs / scan / exploit");
+}else{
+alert("UNKNOWN CODE");
+}
+}
 
 function write(t){
-document.getElementById("terminal").innerHTML += t + "\n";
+document.getElementById("terminal").innerHTML+=t+"\n";
 }
-
-function boot(){
-write("booting system...");
-setTimeout(()=>write("loading kernel..."),500);
-setTimeout(()=>write("checking integrity..."),1000);
-setTimeout(()=>write("firewall bypass required"),1500);
-setTimeout(()=>write("ENTER ACCESS CODE"),2000);
-}
-
-boot();
 
 function run(){
+let v=document.getElementById("cmd2").value.trim();
+document.getElementById("cmd2").value="";
 
-let v = document.getElementById("cmd").value.trim();
-document.getElementById("cmd").value = "";
+if(!unlocked) return;
 
-write("> " + v);
-
-// 🔐 LEVEL 1 PASSWORD
-if(v === "apopimchiki"){
-write("ACCESS GRANTED");
-write("bypassing security...");
-write("decrypting core...");
-write("");
-write("=== DEVKIT CORE UNLOCKED ===");
-
-setTimeout(()=>{
-level2 = true;
-write("");
-write(">>> ENTERING SYSTEM TERMINAL <<<");
-write("TYPE: help | logs | scan | exploit | status");
-},1000);
-
-return;
+if(v==="help"){
+write("logs / scan / exploit / status");
 }
 
-// ❌ до входа
-if(!level2){
-write("ACCESS DENIED");
-return;
-}
-
-// 💻 LEVEL 2
-
-if(v === "help"){
-write("commands: logs / scan / exploit / status");
-}
-
-else if(v === "logs"){
+else if(v==="logs"){
 write(
 "log_01 system boot\n"+
 "log_02 user detected\n"+
@@ -119,12 +131,12 @@ write(
 "log_07 corruption rising\n"+
 "log_08 hidden path found\n"+
 "log_09 core fragment unstable\n"+
-"log_10 CORE LINK ESTABLISHED\n"+
+"log_10 CORE LINK\n"+
 "log_11 unknown signal\n"+
 "log_12 memory gap\n"+
 "log_13 /core/ fragment\n"+
 "log_14 unstable system\n"+
-"log_15 warning: deep access\n"+
+"log_15 deep access warning\n"+
 "log_16 corrupted entry\n"+
 "log_17 anomaly increase\n"+
 "log_18 core proximity high\n"+
@@ -132,29 +144,25 @@ write(
 );
 }
 
-else if(v === "scan"){
+else if(v==="scan"){
 write("scanning system...");
 write("anomalies detected: 3");
-write("corrupted memory blocks found");
 }
 
-else if(v === "status"){
-write("SYSTEM STATUS: UNSTABLE");
-write("SECURITY LEVEL: UNKNOWN");
-}
-
-else if(v === "exploit"){
-write("SYSTEM BREACH INITIATED...");
-write("searching vulnerabilities...");
+else if(v==="exploit"){
+write("SYSTEM BREACH...");
 write("hidden endpoint: /memory/core/message.txt");
 write("ACCESS KEY: apopimchiki-core");
 write("CORE UNLOCKED");
 }
 
+else if(v==="status"){
+write("SYSTEM STABLE BUT MONITORED");
+}
+
 else{
 write("UNKNOWN COMMAND");
 }
-
 }
 
 </script>
