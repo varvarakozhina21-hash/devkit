@@ -6,29 +6,42 @@
 <title>ANDREW_DEVKIT</title>
 
 <style>
+
 body{
+margin:0;
 background:black;
 color:#00ff88;
 font-family:monospace;
-padding:20px;
-margin:0;
+padding-bottom:140px;
+}
+
+.scan{
+position:fixed;
+inset:0;
+opacity:.06;
+pointer-events:none;
+background:repeating-linear-gradient(0deg,transparent,transparent 2px,#00ff88 3px);
 }
 
 .box{
-max-width:700px;
-margin:auto;
-border:1px solid #00ff88;
+max-width:850px;
+margin:40px auto;
 padding:20px;
-margin-top:30px;
+border:1px solid #00ff88;
+background:black;
 }
 
-h1{
-font-size:20px;
+.glitch{animation:glitch 1.2s infinite;}
+
+@keyframes glitch{
+0%{text-shadow:2px 0 red,-2px 0 blue;}
+50%{text-shadow:-2px 0 red,2px 0 blue;}
+100%{text-shadow:2px 0 red,-2px 0 blue;}
 }
 
 input,button{
 width:100%;
-padding:12px;
+padding:10px;
 margin-top:10px;
 background:black;
 color:#00ff88;
@@ -37,52 +50,94 @@ font-family:monospace;
 }
 
 #terminal{
-white-space:pre-wrap;
 margin-top:20px;
-border-top:1px solid #00ff88;
-padding-top:10px;
+white-space:pre-wrap;
 min-height:200px;
 }
 
-.glitch{
-animation:gl 1s infinite;
+.bar{
+width:100%;
+height:18px;
+border:1px solid #00ff88;
+display:none;
+margin-top:20px;
 }
 
-@keyframes gl{
-0%{opacity:1}
-50%{opacity:0.4}
-100%{opacity:1}
+.fill{
+height:100%;
+width:0%;
+background:#00ff88;
+transition:width .6s;
 }
+
+.warn{color:#ff4444;}
+
+.core,.final{
+display:none;
+margin-top:20px;
+padding:15px;
+border:1px dashed #00ff88;
+}
+
+.glitch-on{animation:glitch 0.15s infinite;}
+
+.blink{animation:blink 1s infinite;}
+@keyframes blink{50%{opacity:0;}}
+
 </style>
 </head>
 
 <body>
 
+<div class="scan"></div>
+
 <div class="box">
 
-<div id="level1">
+<h1 class="glitch">ANDREW_DEVKIT</h1>
 
-<h1 class="glitch">ANDREW_DEVKIT // ACCESS NODE</h1>
+<p id="mode">> SYSTEM OFFLINE</p>
 
-<p>Если ты это читаешь — значит ты добрался до ядра системы.</p>
-<p>Мне хотелось сделать для тебя не просто подарок, а показать, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле и реализации себя.</p>
-<p>Я верю, что у тебя всё получится, и буду рядом на каждом этапе.</p>
+<input id="input" placeholder="enter key or command">
+<button onclick="run()">EXECUTE</button>
 
-<p>ENTER ACCESS CODE:</p>
-
-<input id="cmd" placeholder="password...">
-<button onclick="enter()">UNLOCK</button>
-
-</div>
-
-<div id="level2" style="display:none">
-
-<h1>ANDREW_DEVKIT // CORE TERMINAL</h1>
+<p id="status"></p>
 
 <div id="terminal"></div>
 
-<input id="cmd2" placeholder="type command...">
-<button onclick="run()">EXECUTE</button>
+<div class="bar" id="bar"><div class="fill" id="fill"></div></div>
+
+<div id="core" class="core">
+<h3>CORE MEMORY ARCHIVE</h3>
+<p>/memory/core/message.txt</p>
+</div>
+
+<div id="final" class="final">
+
+<h2>CORE MEMORY RECOVERED</h2>
+
+<p>Если ты это читаешь — значит ты добрался до ядра системы.</p>
+
+<br>
+
+<p>
+Мне хотелось сделать для тебя не просто подарок, а показать им, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле, реализации себя.
+</p>
+
+<br>
+
+<p>
+я верю что у тебя все получиться и буду рядом на каждом этапе!
+</p>
+
+<br>
+
+<hr>
+
+<h2>ENTER TERMINAL MODE</h2>
+
+<p class="warn">Run in Linux terminal:</p>
+
+<code>curl -s https://YOUR-LINK/andrew-devkit.sh | bash</code>
 
 </div>
 
@@ -90,79 +145,132 @@ animation:gl 1s infinite;
 
 <script>
 
+const password="apopimchiki";
+
 let unlocked=false;
+let breach=false;
 
-function enter(){
-let v=document.getElementById("cmd").value.trim();
+const terminal=document.getElementById("terminal");
+const bar=document.getElementById("bar");
+const fill=document.getElementById("fill");
 
-if(v==="apopimchiki"){
-document.getElementById("level1").style.display="none";
-document.getElementById("level2").style.display="block";
-unlocked=true;
-write("CORE SYSTEM ACTIVATED");
-write("TYPE: help / logs / scan / exploit");
-}else{
-alert("UNKNOWN CODE");
+function beep(){
+const ctx=new (window.AudioContext||window.webkitAudioContext)();
+const osc=ctx.createOscillator();
+const gain=ctx.createGain();
+
+osc.connect(gain);
+gain.connect(ctx.destination);
+
+osc.type="square";
+osc.frequency.value=700;
+gain.gain.value=0.03;
+
+osc.start();
+osc.stop(ctx.currentTime+0.05);
 }
+
+function vibrate(p){
+if(navigator.vibrate) navigator.vibrate(p);
 }
 
 function write(t){
-document.getElementById("terminal").innerHTML+=t+"\n";
+terminal.innerHTML+=t+"\n";
+terminal.scrollTop=terminal.scrollHeight;
+beep();
+}
+
+function unlock(){
+
+unlocked=true;
+
+document.getElementById("mode").innerText="> SYSTEM ONLINE";
+
+bar.style.display="block";
+
+beep(); vibrate([100]);
+
+write("ACCESS GRANTED");
+write("BOOT SEQUENCE INITIATED");
+
+setTimeout(()=>fill.style.width="30%",600);
+setTimeout(()=>write("LOADING MODULES..."),900);
+setTimeout(()=>fill.style.width="60%",1400);
+setTimeout(()=>write("VERIFYING USER..."),1800);
+setTimeout(()=>fill.style.width="100%",2400);
+setTimeout(()=>write("SYSTEM READY"),3000);
+
+}
+
+function hack(){
+
+if(breach) return;
+breach=true;
+
+document.getElementById("mode").innerText="> SYSTEM BREACH DETECTED";
+
+write("!!! WARNING !!!");
+write("CORE COMPROMISED");
+
+document.body.classList.add("glitch-on");
+
+setTimeout(()=>{
+document.getElementById("core").style.display="block";
+write("EXTRACTING MEMORY...");
+beep(); vibrate(200);
+},2000);
+
+setTimeout(()=>{
+document.getElementById("final").style.display="block";
+write("CORE MEMORY RESTORED");
+
+setTimeout(()=>{
+document.body.classList.remove("glitch-on");
+},4000);
+
+beep(); vibrate([200,100,200]);
+
+},4500);
+
 }
 
 function run(){
-let v=document.getElementById("cmd2").value.trim();
-document.getElementById("cmd2").value="";
 
-if(!unlocked) return;
+const v=document.getElementById("input").value.trim().toLowerCase();
+document.getElementById("input").value="";
+
+write("> " + v);
+
+if(!unlocked){
+
+if(v===password){
+unlock();
+}
+else{
+document.getElementById("status").innerHTML="<span class='warn'>INVALID KEY</span>";
+vibrate(200);
+}
+return;
+}
 
 if(v==="help"){
-write("logs / scan / exploit / status");
+write("scan / status / run");
 }
-
-else if(v==="logs"){
-write(
-"log_01 system boot\n"+
-"log_02 user detected\n"+
-"log_03 auth success\n"+
-"log_04 memory sync\n"+
-"log_05 anomaly detected\n"+
-"log_06 trace running\n"+
-"log_07 corruption rising\n"+
-"log_08 hidden path found\n"+
-"log_09 core fragment unstable\n"+
-"log_10 CORE LINK\n"+
-"log_11 unknown signal\n"+
-"log_12 memory gap\n"+
-"log_13 /core/ fragment\n"+
-"log_14 unstable system\n"+
-"log_15 deep access warning\n"+
-"log_16 corrupted entry\n"+
-"log_17 anomaly increase\n"+
-"log_18 core proximity high\n"+
-"log_19 CORE READY"
-);
-}
-
 else if(v==="scan"){
-write("scanning system...");
-write("anomalies detected: 3");
+write("Scanning...");
+beep();
 }
-
-else if(v==="exploit"){
-write("SYSTEM BREACH...");
-write("hidden endpoint: /memory/core/message.txt");
-write("ACCESS KEY: apopimchiki-core");
-write("CORE UNLOCKED");
-}
-
 else if(v==="status"){
-write("SYSTEM STABLE BUT MONITORED");
+write("SYSTEM ONLINE");
 }
-
+else if(v==="run"){
+hack();
+}
 else{
 write("UNKNOWN COMMAND");
+vibrate(100);
 }
+
 }
 
 </script>
