@@ -3,39 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <title>ANDREW_DEVKIT</title>
+
 <style>
-body{
-background:black;
-color:#00ff88;
-font-family:monospace;
-padding:20px;
+body {
+background: black;
+color: #00ff88;
+font-family: monospace;
+padding: 20px;
 }
 
-.box{
-max-width:800px;
-margin:auto;
-border:1px solid #00ff88;
-padding:20px;
+.box {
+max-width: 800px;
+margin: auto;
+border: 1px solid #00ff88;
+padding: 20px;
 }
 
-input,button{
-width:100%;
-padding:10px;
-margin-top:10px;
-background:black;
-color:#00ff88;
-border:1px solid #00ff88;
-font-family:monospace;
+input, button {
+width: 100%;
+padding: 10px;
+margin-top: 10px;
+background: black;
+color: #00ff88;
+border: 1px solid #00ff88;
+font-family: monospace;
 }
 
-#terminal{
-margin-top:20px;
-white-space:pre-wrap;
-min-height:200px;
-border-top:1px solid #00ff88;
-padding-top:10px;
+#terminal {
+margin-top: 20px;
+white-space: pre-wrap;
+min-height: 200px;
+border-top: 1px solid #00ff88;
+padding-top: 10px;
 }
 </style>
+
 </head>
 
 <body>
@@ -44,9 +46,9 @@ padding-top:10px;
 
 <h2>ANDREW_DEVKIT</h2>
 
-<p>Enter command:</p>
+<p>ENTER ACCESS CODE:</p>
 
-<input id="cmd" placeholder="type command...">
+<input id="cmd" placeholder="type password or command...">
 <button onclick="run()">EXECUTE</button>
 
 <div id="terminal"></div>
@@ -55,73 +57,83 @@ padding-top:10px;
 
 <script>
 
-let level2 = false;
+let unlocked = false;
 
 function write(t){
 document.getElementById("terminal").innerHTML += t + "\n";
 }
 
 function run(){
-let v=document.getElementById("cmd").value.trim();
-document.getElementById("cmd").value="";
+let v = document.getElementById("cmd").value.trim();
+document.getElementById("cmd").value = "";
 
 write("> " + v);
 
-// 🔵 LEVEL 1 → запуск Level 2
-if(v.includes("curl")){
-
-write("CONNECTING TO DEVKIT CORE...");
-setTimeout(()=>write("DOWNLOADING MODULE..."),500);
-setTimeout(()=>write("EXECUTING LEVEL 2..."),1000);
-
+// 🔵 LEVEL 1 — ПАРОЛЬ
+if(v === "apopimchiki"){
+write("ACCESS GRANTED...");
+write("CONNECTING TO CORE...");
 setTimeout(()=>{
-level2 = true;
+unlocked = true;
 write("");
-write("=== ANDREW_DEVKIT LEVEL 2 ===");
-write("SYSTEM TERMINAL ONLINE");
-write("TYPE: help / logs / exploit");
-},1500);
-
+write("=== ANDREW_DEVKIT LEVEL 2 UNLOCKED ===");
+write("TYPE: help | logs | scan | exploit");
+},1000);
 return;
 }
 
-// ❌ если Level 2 не активирован
-if(!level2){
+// ❌ если ещё не разблокировано
+if(!unlocked){
 write("UNKNOWN COMMAND");
 return;
 }
 
-// 🟢 LEVEL 2 команды
-if(v==="help"){
-write("commands: logs / scan / exploit");
+// 🟢 LEVEL 2
+if(v === "help"){
+write("commands: logs / scan / exploit / status");
 }
 
-else if(v==="logs"){
+else if(v === "logs"){
 write(
 "log_01 system boot\n"+
 "log_02 user detected\n"+
-"log_03 auth ok\n"+
+"log_03 auth success\n"+
 "log_04 memory sync\n"+
 "log_05 anomaly detected\n"+
 "log_06 trace running\n"+
 "log_07 corruption rising\n"+
 "log_08 hidden path found\n"+
 "log_09 core fragment unstable\n"+
-"log_10 CORE MEMORY LINK"
+"log_10 CORE MEMORY LINK ESTABLISHED\n"+
+"log_11 unknown signal\n"+
+"log_12 memory gap\n"+
+"log_13 /core/ fragment\n"+
+"log_14 unstable system\n"+
+"log_15 warning: deep access\n"+
+"log_16 corrupted entry\n"+
+"log_17 anomaly increase\n"+
+"log_18 core proximity high\n"+
+"log_19 CORE READY"
 );
 }
 
-else if(v==="exploit"){
-write("SYSTEM BREACH DETECTED...");
+else if(v === "scan"){
+write("scanning system...");
+write("anomalies detected: 3");
+write("corrupted memory blocks found");
+}
+
+else if(v === "status"){
+write("SYSTEM STATUS: UNSTABLE");
+write("SECURITY LEVEL: UNKNOWN");
+}
+
+else if(v === "exploit"){
+write("SYSTEM BREACH INITIATED...");
 write("searching vulnerabilities...");
 write("hidden endpoint: /memory/core/message.txt");
 write("ACCESS KEY: apopimchiki-core");
-write("CORE UNLOCKED");
-}
-
-else if(v==="scan"){
-write("scanning system...");
-write("anomalies found: 3");
+write("CORE MEMORY UNLOCKED");
 }
 
 else{
