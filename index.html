@@ -2,40 +2,20 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ANDREW_DEVKIT</title>
-
 <style>
 body{
-margin:0;
 background:black;
 color:#00ff88;
 font-family:monospace;
-padding-bottom:140px;
-}
-
-.scan{
-position:fixed;
-inset:0;
-opacity:.06;
-pointer-events:none;
-background:repeating-linear-gradient(0deg,transparent,transparent 2px,#00ff88 3px);
+padding:20px;
 }
 
 .box{
-max-width:850px;
-margin:40px auto;
-padding:20px;
+max-width:800px;
+margin:auto;
 border:1px solid #00ff88;
-background:black;
-}
-
-.glitch{animation:glitch 1.2s infinite;}
-
-@keyframes glitch{
-0%{text-shadow:2px 0 red,-2px 0 blue;}
-50%{text-shadow:-2px 0 red,2px 0 blue;}
-100%{text-shadow:2px 0 red,-2px 0 blue;}
+padding:20px;
 }
 
 input,button{
@@ -52,207 +32,74 @@ font-family:monospace;
 margin-top:20px;
 white-space:pre-wrap;
 min-height:200px;
+border-top:1px solid #00ff88;
+padding-top:10px;
 }
-
-.bar{
-width:100%;
-height:18px;
-border:1px solid #00ff88;
-display:none;
-margin-top:20px;
-}
-
-.fill{
-height:100%;
-width:0%;
-background:#00ff88;
-transition:width .6s;
-}
-
-.warn{color:#ff4444;}
-
-.core,.final{
-display:none;
-margin-top:20px;
-padding:15px;
-border:1px dashed #00ff88;
-}
-
-.glitch-on{animation:glitch 0.15s infinite;}
-
-.blink{animation:blink 1s infinite;}
-@keyframes blink{50%{opacity:0;}}
 </style>
 </head>
 
 <body>
 
-<div class="scan"></div>
-
 <div class="box">
 
-<h1 class="glitch">ANDREW_DEVKIT</h1>
+<h2>ANDREW_DEVKIT</h2>
 
-<p id="mode">> SYSTEM OFFLINE</p>
+<p>Enter command:</p>
 
-<input id="input" placeholder="enter key or command">
+<input id="cmd" placeholder="type command...">
 <button onclick="run()">EXECUTE</button>
 
-<p id="status"></p>
-
 <div id="terminal"></div>
-
-<div class="bar" id="bar"><div class="fill" id="fill"></div></div>
-
-<div id="core" class="core">
-<h3>CORE MEMORY ARCHIVE</h3>
-<p>/memory/core/message.txt</p>
-</div>
-
-<div id="final" class="final">
-
-<h2>CORE MEMORY RECOVERED</h2>
-
-<p>Если ты это читаешь — значит ты добрался до ядра системы.</p>
-
-<br>
-
-<p>Мне хотелось сделать для тебя не просто подарок, а показать им, что я действительно тебя очень люблю и искренне желаю успехов в твоем деле, реализации себя.</p>
-
-<br>
-
-<p>я верю что у тебя все получиться и буду рядом на каждом этапе!</p>
-
-<br>
-
-<hr>
-
-<h2>ENTER TERMINAL MODE</h2>
-
-<p class="warn">Run in Linux terminal:</p>
-
-<code>curl -s https://raw.githubusercontent.com/varvarakozhina21-hash/devkit/main/andrew-devkit.sh | bash</code>
-
-</div>
 
 </div>
 
 <script>
 
-const password="apopimchiki";
-
-let unlocked=false;
-let breach=false;
-
-const terminal=document.getElementById("terminal");
-const bar=document.getElementById("bar");
-const fill=document.getElementById("fill");
-
-function beep(){
-const ctx=new (window.AudioContext||window.webkitAudioContext)();
-const osc=ctx.createOscillator();
-const gain=ctx.createGain();
-
-osc.connect(gain);
-gain.connect(ctx.destination);
-
-osc.type="square";
-osc.frequency.value=700;
-gain.gain.value=0.03;
-
-osc.start();
-osc.stop(ctx.currentTime+0.05);
-}
-
-function vibrate(p){
-if(navigator.vibrate) navigator.vibrate(p);
-}
-
 function write(t){
-terminal.innerHTML+=t+"\n";
-terminal.scrollTop=terminal.scrollHeight;
-beep();
-}
-
-function unlock(){
-unlocked=true;
-document.getElementById("mode").innerText="> SYSTEM ONLINE";
-
-bar.style.display="block";
-
-beep(); vibrate([100]);
-
-write("ACCESS GRANTED");
-write("BOOT SEQUENCE INITIATED");
-
-setTimeout(()=>fill.style.width="30%",600);
-setTimeout(()=>write("LOADING MODULES..."),900);
-setTimeout(()=>fill.style.width="60%",1400);
-setTimeout(()=>write("VERIFYING USER..."),1800);
-setTimeout(()=>fill.style.width="100%",2400);
-setTimeout(()=>write("SYSTEM READY"),3000);
-}
-
-function hack(){
-if(breach) return;
-breach=true;
-
-document.getElementById("mode").innerText="> SYSTEM BREACH DETECTED";
-
-write("!!! WARNING !!!");
-write("CORE COMPROMISED");
-
-document.body.classList.add("glitch-on");
-
-setTimeout(()=>{
-document.getElementById("core").style.display="block";
-write("EXTRACTING MEMORY...");
-beep(); vibrate(200);
-},2000);
-
-setTimeout(()=>{
-document.getElementById("final").style.display="block";
-write("CORE MEMORY RESTORED");
-
-setTimeout(()=>{
-document.body.classList.remove("glitch-on");
-},4000);
-
-beep(); vibrate([200,100,200]);
-
-},4500);
+document.getElementById("terminal").innerHTML += t + "\n";
 }
 
 function run(){
-
-const v=document.getElementById("input").value.trim().toLowerCase();
-document.getElementById("input").value="";
+let v=document.getElementById("cmd").value;
+document.getElementById("cmd").value="";
 
 write("> " + v);
 
-if(!unlocked){
+// 👉 СИМУЛЯЦИЯ LEVEL 2 ЗАПУСКА
+if(v.includes("curl")){
 
-if(v===password){
-unlock();
-}else{
-document.getElementById("status").innerHTML="<span class='warn'>INVALID KEY</span>";
-vibrate(200);
-}
+write("CONNECTING TO DEVKIT CORE...");
+setTimeout(()=>write("DOWNLOADING MODULE..."),500);
+setTimeout(()=>write("EXECUTING LEVEL 2..."),1000);
+
+setTimeout(()=>{
+write("");
+write("ANDREW_DEVKIT // LEVEL 2");
+write("SYSTEM TERMINAL ONLINE");
+write("");
+write("TYPE: help / logs / exploit");
+},1500);
+
 return;
 }
 
+// простые команды
+
 if(v==="help"){
-write("scan / status / run");
-}else if(v==="scan"){
-write("Scanning...");
-beep();
-}else if(v==="status"){
-write("SYSTEM ONLINE");
-}else if(v==="run"){
-hack();
-}else{
+write("commands: logs / scan / exploit");
+}
+
+else if(v==="logs"){
+write("log_01 ... log_19 CORE MEMORY LINK");
+}
+
+else if(v==="exploit"){
+write("SYSTEM BREACH SIMULATION...");
+write("CORE MEMORY FOUND: apopimchiki-core");
+}
+
+else{
 write("UNKNOWN COMMAND");
-vibrate(100);
 }
 }
 
